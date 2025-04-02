@@ -5,5 +5,7 @@ from . import views
 
 urlpatterns = [
     path('list',views.kurslar),
-    path('details',views.kurslar_detay),
+    path('<kurs_adi>',views.kurslar_detay),
+    path('category/<int:category_id>',views.getCoursesByCategoryId),
+    path('category/<str:category_name>',views.getCoursesByCategory),
 ]
