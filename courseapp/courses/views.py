@@ -4,8 +4,13 @@ from django.urls import reverse
 
 data = {
     "programlama" : "programlama kategorisine ait kurslar",
-    "web-gelistirme" : "web-gelistirme kategorisine ait kurslar"
+    "web-gelistirme" : "web-gelistirme kategorisine ait kurslar",
+    "mobil" : "mobil kategorisine ait kurslar",
+
 }
+
+def index(request):
+    return render(request,'courses/index.html')
 
 def kurslar(request):
     return HttpResponse('kurslar')
