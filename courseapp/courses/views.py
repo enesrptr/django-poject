@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseNotFound , HttpResponseRedirect
 from django.urls import reverse
-from datetime import date
+from datetime import date,datetime
 
 data = {
     "programlama" : "programlama kategorisine ait kurslar",
@@ -15,25 +15,33 @@ db = {
         {
             "title" : "javascript kursu",
             "description" : "javascript kurs aciklamasi",
-            "imageUrl" : "https://img-c.udemycdn.com/course/750x422/1662526_fc1c_3.jpg",
+            "imageUrl" : "1.jpg",
             "slug" : "java-script-kursu",
-            "date" : date(2025,10,10)
+            "date" : datetime.now(),
+            "isActive" : True,
+            "isUpdated": False
         },
 
         {
             "title" : "python kursu",
             "description" : "python kurs aciklamasi",
-            "imageUrl" : "https://img-c.udemycdn.com/course/750x422/2463492_8344_3.jpg",
+            "imageUrl" : "2.jpg",
             "slug" : "python-kursu",
-            "date" : date(2025,9,10)
+            "date" : date(2025,9,10),
+            "isActive" : False,
+            "isUpdated": False
+
         },
 
         {
             "title" : "web gelistirme kursu",
             "description" : "web gelistirme kurs aciklamasi",
-            "imageUrl" : "https://img-c.udemycdn.com/course/750x422/1258436_2dc3_4.jpg",
+            "imageUrl" : "3.jpg",
             "slug" : "web-gelistirme-kursu",
-            "date" : date(2025,8,10)
+            "date" : date(2025,8,10),
+            "isActive" : True,
+            "isUpdated": True
+
         }
     ],
     "categories" : [
@@ -44,8 +52,10 @@ db = {
 }
 
 def index(request):
-    kurslar = db["courses"]
+
+    kurslar = [course for course in db["courses"] if course["isActive"]==True]
     kategoriler = db["categories"]
+
 
     return render(request,'courses/index.html',{
         'categories' : kategoriler,
