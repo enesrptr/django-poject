@@ -9,8 +9,12 @@
         
       </div>
       <div class="col-9 ">
+        {% if courses|length == 0 %}
+        <div class="alert alert-warning">Kurs Bulunamadi</div>
+        {% endif %}
+
         {% for course in courses %}
-          {% include "courses/partials/_course.html" %}
+          {% include 'courses/partials/_course.html' %}
         {% endfor %}
           
       </div>
