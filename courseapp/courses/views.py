@@ -27,6 +27,12 @@ def search(request):
         'courses': kurslar,
     })
 
+def create_course(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        print(title)
+    return render(request, "courses/create-course.html")
+
 def details(request, slug):
 
     # try:
