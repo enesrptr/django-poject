@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
+
+from courses.forms import CourseCreateForm
 from .models import Course,Category
 from django.core.paginator import Paginator
 
@@ -12,6 +14,12 @@ def index(request):
         'categories' : kategoriler,
         'courses' : kurslar
     })
+
+def create_course(request):
+
+    form = CourseCreateForm()
+        
+    return render(request, "courses/create-course.html", {"form": form})
 
 
 def search(request):
@@ -27,28 +35,7 @@ def search(request):
         'courses': kurslar,
     })
 
-def create_course(request):
 
-    if request.method == "POST":
-        title = request.POST["title"]
-        description = request.POST["description"]
-        imageUrl = request.POST["imageUrl"]
-        slug = request.POST["slug"]
-        isActive = request.POST.get("isActive", False)
-        isHome = request.POST.get("isHome", False)
-
-        if isActive == "on":
-            isActive = True
-
-        
-        if isHome == "on":
-            isHome = True
-
-        kurs = Course(title = title, description = description, imageUrl=imageUrl, slug = slug, isActive = isActive , isHome = isHome)
-        kurs.save()
-        return redirect("/kurslar")
-        
-    return render(request, "courses/create-course.html")
 
 def details(request, slug):
 
