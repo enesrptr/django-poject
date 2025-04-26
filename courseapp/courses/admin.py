@@ -17,6 +17,7 @@ class CourseAdmin(admin.ModelAdmin):
             html += category.name + " "
 
         return html
+                
 
 
 @admin.register(Category)
