@@ -17,12 +17,11 @@ from django.forms import SelectMultiple, Textarea, TextInput
 class CourseCreateForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ("title" , "description", "imageUrl", "slug")
+        fields = ("title" , "description", "image", "slug")
 
         widgets = {
             "title" : forms.TextInput(attrs={"class":"form-control"}),
             "description" : forms.Textarea(attrs={"class":"form-control"}),
-            "imageUrl" : forms.TextInput(attrs={"class":"form-control"}),
             "slug" : forms.TextInput(attrs={"class":"form-control"}),
         }
         
@@ -40,12 +39,11 @@ class CourseCreateForm(forms.ModelForm):
 class CourseEditForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ("title" , "description", "imageUrl", "slug", "categories", "isActive")
+        fields = ("title" , "description", "image", "slug", "categories", "isActive")
 
         widgets = {
             "title" : TextInput(attrs={"class":"form-control"}),
             "description" : Textarea(attrs={"class":"form-control"}),
-            "imageUrl" : TextInput(attrs={"class":"form-control"}),
             "slug" : TextInput(attrs={"class":"form-control"}),
             "categories" : SelectMultiple(attrs={"class":"form-control"}),
         }
@@ -59,4 +57,7 @@ class CourseEditForm(forms.ModelForm):
                 "required":"kurs aciklamasi gereklidir"
             },
         }
+
+class UploadForm(forms.Form):
+    image = forms.ImageField()
         
