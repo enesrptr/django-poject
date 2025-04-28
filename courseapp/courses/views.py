@@ -31,6 +31,7 @@ def create_course(request):
         
     return render(request, "courses/create-course.html", {"form": form})
 
+
 def course_list(request):
     kurslar = Course.objects.all()
 
