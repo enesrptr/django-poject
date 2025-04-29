@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 def user_login(request):
@@ -17,6 +18,7 @@ def user_login(request):
 
         if user is not None:
             login(request, user)
+            messages.add_message(request, messages.SUCCESS, "login successful")
             nextUrl = request.GET.get("next", None)
 
             if nextUrl is None:
@@ -24,7 +26,8 @@ def user_login(request):
             else:
                 return redirect(nextUrl)
         else:
-            return render(request, "account/login.html", {"error":"username or password wrong"}, )
+            messages.add_message(request, messages.ERROR, "username or password wrong")
+            return render(request, "account/login.html" )
     else:
         return render(request, "account/login.html")
     
@@ -65,5 +68,6 @@ def user_register(request):
         
 
 def user_logout(request):
+    messages.add_message(request, messages.SUCCESS, "logout successful")
     logout(request)
     return redirect("index")
