@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 
+from account.forms import LoginUserForm
+
 
 
 def user_login(request):
@@ -13,13 +15,13 @@ def user_login(request):
 
     
     if request.method == "POST":
-        form = AuthenticationForm(request, data = request.POST)
+        form = LoginUserForm(request, data = request.POST)
 
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password")
         
-            user = authenticate(request, username=username, password= password)
+            user = authenticate(request, username=username, password=password)
 
             if user is not None:
                 login(request, user)
@@ -37,7 +39,7 @@ def user_login(request):
         else:
             return render(request, "account/login.html", {"form":form})
     else:
-        form = AuthenticationForm()
+        form = LoginUserForm()
         return render(request, "account/login.html", {"form":form})
     
 
