@@ -8,7 +8,12 @@
         <h1>Login</h1>
         <hr>
 
-        {% include "partials/_form.html" %}
+        <form method = "POST" novalidate>
+          {% csrf_token %}
+
+          {% include 'partials/_form.html' %}
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
 
       </div>
       

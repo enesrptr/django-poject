@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 
 from account.forms import LoginUserForm
+from django.contrib.auth.forms import UserCreationForm
 
 
 
@@ -47,36 +48,25 @@ def user_login(request):
 def user_register(request):
 
     if request.method == "POST":
-        username = request.POST["username"]
-        email = request.POST["email"]
-        password = request.POST["password"]
-        repassword = request.POST["repassword"]
+        form = UserCreationForm(request.POST)
 
-        if password != repassword:
-            return render(request, "account/register.html",
-                          {"error":"Entered password already exists",
-                           "username":username,
-                           "email":email},)
-        
-        if User.objects.filter(username = username).exists():
-            return render(request, "account/register.html",
-                          {"error":"Entered username already exists",
-                           "username":username,
-                           "email":email},)
-        
-        if User.objects.filter(email = email).exists():
-            return render(request, "account/register.html", 
-                          {"error":"Entered email already exists",
-                           "username":username,
-                           "email":email},)
-                
-        user = User.objects.create_user(username = username, email=email, password=password)
-        user.save()
-        return redirect("user_login")
+        if form.is_valid():
+           form.save()
+
+           username = form.cleaned_data["username"]
+           password = form.cleaned_data["password1"]
+
+           user = authenticate(request, username=username, password=password)
+           login(request, user)
+           return redirect("index")
+       
+        else:
+            return render(request, "account/register.html", {"form": form})
 
     else:
-            return render(request, "account/register.html")
-        
+        form = UserCreationForm()
+        return render(request, "account/register.html", {"form": form})
+
 
 def user_logout(request):
     messages.add_message(request, messages.SUCCESS, "logout successful")
